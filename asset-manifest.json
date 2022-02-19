@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/interview-app/static/css/main.81b925fa.css",
-    "main.js": "/interview-app/static/js/main.ca205565.js",
+    "main.js": "/interview-app/static/js/main.92da522a.js",
     "static/js/787.e41f7326.chunk.js": "/interview-app/static/js/787.e41f7326.chunk.js",
     "static/media/primeicons.svg": "/interview-app/static/media/primeicons.c6e2053303524e39530c.svg",
     "static/media/primeicons.eot": "/interview-app/static/media/primeicons.7fc4d8e224d1ff1b9c62.eot",
@@ -9,11 +9,11 @@
     "static/media/primeicons.ttf": "/interview-app/static/media/primeicons.91bacab1f083f2795272.ttf",
     "index.html": "/interview-app/index.html",
     "main.81b925fa.css.map": "/interview-app/static/css/main.81b925fa.css.map",
-    "main.ca205565.js.map": "/interview-app/static/js/main.ca205565.js.map",
+    "main.92da522a.js.map": "/interview-app/static/js/main.92da522a.js.map",
     "787.e41f7326.chunk.js.map": "/interview-app/static/js/787.e41f7326.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.81b925fa.css",
-    "static/js/main.ca205565.js"
+    "static/js/main.92da522a.js"
   ]
 }
