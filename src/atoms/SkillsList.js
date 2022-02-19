@@ -1,12 +1,16 @@
 import React, {useState} from "react";
-import {ListBox} from "primereact/listbox";
+import {AutoComplete} from 'primereact/autocomplete';
 import SkillsService from "../service/SkillsService";
 
 export const SkillsList = ({onSelectSkill}) => {
   const [selectedSkill, setSelectedSkill] = useState(null)
+  const [filteredSkills, setFilteredSkills] = useState([])
   const skillsService = new SkillsService()
 
   const handleSkillSelect = (skill) => {
+    if (typeof skill === "string") {
+      skill = {name: skill}
+    }
     setSelectedSkill(skill);
 
     if (onSelectSkill) {
@@ -14,11 +18,15 @@ export const SkillsList = ({onSelectSkill}) => {
     }
   }
 
+  const filterSkills = (event) => {
+    const query = event.query
+
+    setFilteredSkills(skillsService.searchTechSkills(query))
+  }
+
   return (
-      <ListBox value={selectedSkill} options={skillsService.getTechSkills()}
-               onChange={(e) => handleSkillSelect(e.value)}
-               listStyle={{maxHeight: '20rem', "textAlign": 'left'}}
-               filter optionLabel="name"
-      />
+    <AutoComplete value={selectedSkill} suggestions={filteredSkills} completeMethod={filterSkills}
+                  onChange={(e) => handleSkillSelect(e.value)} dropdown field="name"
+                  style={{width: "100%"}}/>
   );
 }

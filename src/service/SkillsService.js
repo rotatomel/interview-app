@@ -29,4 +29,18 @@ export default class SkillsService {
       return a.name >= b.name ? 1 : -1
     });
   }
+
+  searchTechSkills(query) {
+    let filteredItems = []
+    const skills = this.getTechSkills()
+
+    for (let i = 0; i < skills.length; i++) {
+      let item = skills[i];
+      if (item.name.toLowerCase().indexOf(query.toLowerCase()) === 0) {
+        filteredItems.push(item);
+      }
+    }
+
+    return filteredItems
+  }
 }

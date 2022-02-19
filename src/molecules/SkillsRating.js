@@ -54,57 +54,56 @@ export const SkillsRating = ({onRatedSkill}) => {
   }
 
   return (
-      <div>
-        <Toast ref={toast}/>
+    <div>
+      <Toast ref={toast}/>
 
-        <div className="card">
+      <div className="card">
+        <div
+          className="flex card-container align-items-start  overflow-hidden">
           <div
-              className="flex card-container align-items-start  overflow-hidden">
-            <div
-                className="flex-grow-1 text-white font-bold p-4 border-round mr-3  justify-content-start">
+            className="flex-grow-1 text-white font-bold p-4 border-round mr-3  justify-content-start">
 
-              <label>Select a skill:</label>
+            <label htmlFor="skillsList" className="block">Select a skill:</label>
 
-              <SkillsList onSelectSkill={setSelectedSkill}/>
-
-            </div>
-
-            <div
-                className="flex-grow-1 text-white font-bold p-4 border-round mr-3 justify-content-center">
-              <label>Skill level:</label>
-              <Rating stars={4} value={rating}
-                      onChange={(e) => setRating(e.value)}
-                      tooltip={getStringSkillLevel()}
-                      tooltipOptions={{position: 'bottom'}}
-              />
-            </div>
-
-            <div
-                className="flex-grow-1 text-white font-bold p-4 border-round mr-3 text-justify">
-              <label htmlFor="notes" className="block">Notes:</label>
-              <InputTextarea value={notes}
-                             onChange={(e) => setNotes(e.target.value)}
-                             aria-describedby="notes-help" className="block"
-                             tooltip={"Useful notes about the tech skill and the candidate's performance"}
-                             tooltipOptions={{position: 'bottom'}}/>
-            </div>
+            <SkillsList onSelectSkill={setSelectedSkill}/>
 
           </div>
 
           <div
-              className="flex card-container align-items-center  overflow-hidden">
-            <div
-                className="text-white font-bold p-4 border-round mr-3 text-justify">
-              <Button disabled={areOptionsSelected()}
-                      icon={"pi pi-check"}
-                      label={"Add"}
-                      onClick={handleAddSkill}/>
-            </div>
+            className="flex-grow-1 text-white font-bold p-4 border-round mr-3 justify-content-center">
+            <label htmlFor="skillLevel">Skill level:</label>
+            <Rating stars={4} value={rating}
+                    onChange={(e) => setRating(e.value)}
+                    tooltip={getStringSkillLevel()}
+                    tooltipOptions={{position: 'bottom'}}
+            />
           </div>
+
+          <div
+            className="flex-grow-1 text-white font-bold p-4 border-round mr-3 text-justify">
+            <label htmlFor="notes" className="block">Notes:</label>
+            <InputTextarea value={notes}
+                           onChange={(e) => setNotes(e.target.value)}
+                           aria-describedby="notes-help" className="block"
+                           tooltip={"Useful notes about the tech skill and the candidate's performance"}
+                           tooltipOptions={{position: 'bottom'}}/>
+          </div>
+
         </div>
 
-
+        <div
+          className="flex card-container align-items-center  overflow-hidden">
+          <div
+            className="text-white font-bold p-4 border-round mr-3 text-justify">
+            <Button disabled={areOptionsSelected()}
+                    icon={"pi pi-check"}
+                    label={"Add"}
+                    onClick={handleAddSkill}/>
+          </div>
+        </div>
       </div>
+
+    </div>
   );
 
 }

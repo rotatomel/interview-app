@@ -17,22 +17,22 @@ export const LanguageLevel = ({onSelectLevel}) => {
   }
 
   return (
-      <div className="card">
+    <div className="card">
+      <div
+        className="flex card-container align-items-center  overflow-hidden">
         <div
-            className="flex card-container align-items-center  overflow-hidden">
-          <div
-              className="flex-grow-1 text-white font-bold p-4 border-round   justify-content-center">
+          className="flex-grow-1 text-white font-bold p-4 border-round   justify-content-center">
 
-            <label>{ENG_LEVELS[langLevel]}</label>
-            <Slider value={langLevel}
-                    onChange={(e) => handleSelect(e.value)}
-                    max={5}
-                    min={0}
-            />
-          </div>
-
+          <label>{ENG_LEVELS[langLevel]}</label>
+          <Slider value={langLevel}
+                  onChange={(e) => handleSelect(e.value)}
+                  max={5}
+                  min={0}
+          />
         </div>
+
       </div>
+    </div>
   )
 
 }

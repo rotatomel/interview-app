@@ -12,10 +12,13 @@ import {LanguageLevel} from "./atoms/LanguageLevel";
 import {Button} from "primereact/button";
 import {ToggleButton} from "primereact/togglebutton";
 import {Toast} from "primereact/toast";
+import {getTextReport} from "./utils/ReportBuilder";
+import {ListBox} from "primereact/listbox";
 
 const App = () => {
 
   const [skillsRatings, setSkillsRatings] = useState(new Map())
+  const [ratedSkillsList, setRatedSkillsList] = useState([])
   const [languageLevel, setLanguageLevel] = useState(null)
   const [summary, setSummary] = useState("")
   const [hireDecision, setHireDecision] = useState(false)
@@ -24,15 +27,14 @@ const App = () => {
 
   const buildTextReport = () => {
 
-    const hireText = hireDecision ? '**YES**' : '**Not at this time**'
-    let techSkillsText = ''
+    const reportProps = {
+      hireDecision,
+      skillsRatings,
+      summary,
+      languageLevel
+    }
 
-    skillsRatings.forEach((value, key) => {
-      techSkillsText = techSkillsText
-          + `${key}: ${value.level} (${value.notes})\n`
-    })
-
-    return `Summary:\n\nHire: ${hireText} \n${summary} \n\nEnglish level: ${languageLevel}\nTechSkills:\n${techSkillsText}`;
+    return getTextReport(reportProps)
   }
 
   const handleGenerateReport = () => {
@@ -47,68 +49,88 @@ const App = () => {
     });
   }
 
+  const addedSkillsTemplate = (option) => {
+    return (
+      `${option.skill}: ${option.level} (${option.notes})`
+    )
+  }
+
+  const removeRatedSkill = (skillRating) => {
+    skillsRatings.delete(skillRating.skill);
+    setSkillsRatings(skillsRatings)
+    setRatedSkillsList(Array.from(skillsRatings.values()))
+  }
+
   return (
-      <div className="App">
-        <Toast ref={toast}/>
+    <div className="App">
+      <Toast ref={toast}/>
 
-        <Card header={"Step 1"}>
-          <h2>Tech Skills</h2>
-          <SkillsRating onRatedSkill={(ratedSkill) => {
+      <Card header={"Step 1"}>
+        <h2>Tech Skills</h2>
+        <SkillsRating onRatedSkill={(ratedSkill) => {
+          skillsRatings.set(ratedSkill.skill, ratedSkill)
+          setSkillsRatings(skillsRatings)
+          setRatedSkillsList(Array.from(skillsRatings.values()))
+        }}/>
 
-            skillsRatings.set(ratedSkill.skill, ratedSkill)
-            setSkillsRatings(skillsRatings)
-            console.log(skillsRatings)
-          }}/>
-        </Card>
+        <div
+          className="flex card-container align-items-center  overflow-hidden text-justify">
 
-        <Divider/>
+          <ListBox options={ratedSkillsList} itemTemplate={addedSkillsTemplate} style={{width: '85%'}}
+                   onChange={(e) => removeRatedSkill(e.value)}
+                   tooltip="Click to remove"/>
 
-        <Card header={"Step 2"}>
-          <h2>English Skills</h2>
-          <LanguageLevel onSelectLevel={(level) => setLanguageLevel(level)}/>
-        </Card>
+        </div>
+      </Card>
 
-        <Divider/>
+      <Divider/>
 
-        <Card header={"Step 3"}>
-          <h2>Summary</h2>
+      <Card header={"Step 2"}>
+        <h2>English Skills</h2>
+        <LanguageLevel onSelectLevel={(level) => setLanguageLevel(level)}/>
+      </Card>
 
-          <div className="card">
+      <Divider/>
+
+      <Card header={"Step 3"}>
+        <h2>Summary</h2>
+
+        <div className="card">
+          <div
+            className="flex flex-wrap align-items-center justify-content-center ">
             <div
-                className="flex flex-wrap align-items-center justify-content-center ">
-              <div
-                  className=" text-white font-bold  border-round " style={{
-                width: '50rem', height: '20rem'
-              }}>
-                <InputTextarea value={summary}
-                               onChange={(e) => setSummary(e.target.value)}
-                               style={{width: '100%', height: '100%'}}/>
-
-              </div>
-
+              className=" text-white font-bold  border-round " style={{
+              width: '50rem', height: '20rem'
+            }}>
+              <InputTextarea value={summary}
+                             onChange={(e) => setSummary(e.target.value)}
+                             style={{width: '100%', height: '100%'}}/>
 
             </div>
 
-            <div
-                className="flex flex-wrap align-items-center justify-content-center ">
-              <label>Hire? </label>
-              <ToggleButton checked={hireDecision}
-                            onChange={(e) => setHireDecision(e.value)}
-                            onLabel="Make the offer!"
-                            offLabel="Not this time..."
-                            onIcon="pi pi-check" offIcon="pi pi-times"/>
-            </div>
+
           </div>
-        </Card>
 
-        <Divider/>
+          <div
+            className="flex flex-wrap align-items-center justify-content-center ">
+            <label>Hire? </label>
+            <ToggleButton checked={hireDecision}
+                          onChange={(e) => setHireDecision(e.value)}
+                          onLabel="Make the offer!"
+                          offLabel="Not this time..."
+                          onIcon="pi pi-check" offIcon="pi pi-times"/>
+          </div>
+        </div>
+      </Card>
 
-        <Card header={"Final step"}>
-          <h2>Build report</h2>
-          <Button label={"Get report"} onClick={handleGenerateReport}
-                  icon={"pi pi-copy"}/>
-        </Card>
-      </div>
+      <Divider/>
+
+      <Card header={"Final step"}>
+        <h2>Build report</h2>
+        <Button label={"Get report"} onClick={handleGenerateReport}
+                icon={"pi pi-copy"}/>
+      </Card>
+    </div>
   );
 }
 
